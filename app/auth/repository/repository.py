@@ -12,7 +12,10 @@ class AuthRepository:
 
     def create_user(self, user: dict):
         payload = {
+            "name": user["name"],
+            "phone": user["phone"],
             "email": user["email"],
+            "city": user["city"],
             "password": hash_password(user["password"]),
             "created_at": datetime.utcnow(),
         }
@@ -34,3 +37,12 @@ class AuthRepository:
             }
         )
         return user
+    
+    def update_user_by_id(self, user_id: str, new_data: dict):
+        user_object_id = ObjectId(user_id)
+        self.database["users"].update_one(
+            {"_id": user_object_id},
+            {"$set": new_data}
+        )
+
+

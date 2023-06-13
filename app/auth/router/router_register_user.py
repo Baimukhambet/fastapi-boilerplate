@@ -7,7 +7,10 @@ from . import router
 
 
 class RegisterUserRequest(AppModel):
+    name: str
+    phone: str
     email: str
+    city: str
     password: str
 
 
@@ -16,7 +19,8 @@ class RegisterUserResponse(AppModel):
 
 
 @router.post(
-    "/users", status_code=status.HTTP_201_CREATED, response_model=RegisterUserResponse
+    "/users", status_code=status.HTTP_201_CREATED,
+    response_model=RegisterUserResponse
 )
 def register_user(
     input: RegisterUserRequest,
@@ -30,4 +34,4 @@ def register_user(
 
     svc.repository.create_user(input.dict())
 
-    return RegisterUserResponse(email=input.email)
+    return RegisterUserResponse(email=input.email, name=input.name, phone=input.phone)
