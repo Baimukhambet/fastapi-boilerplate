@@ -1,9 +1,6 @@
-from datetime import datetime
-
 from bson.objectid import ObjectId
 from pymongo.database import Database
 
-from ..utils.security import hash_password
 
 
 class APIRepository:
@@ -18,26 +15,32 @@ class APIRepository:
             "area": post["area"],
             "rooms_count": post["rooms_count"],
             "description": post["description"],
+            "media": []
         }
         payload["user_id"] = ObjectId(user_id)
 
         result = self.database["posts"].insert_one(payload)
         return result.inserted_id
 
-    def get_post_by_id(self, post_id: str) -> dict | None:
+    def get_post_by_id(self, post_id: str):
+        post_object_by_id = ObjectId(post_id)
         post = self.database["posts"].find_one(
             {
-                "_id": ObjectId(post_id),
+                "_id": post_object_by_id,
             }
         )
+        # if user_id == post["user_id"]:
         return post
     
-    def update_post_by_id(self, post_id: str, new_data: dict):
+    def update_post_by_id(self, post_id: str, new_data: dict, user_id):
         post_object_id = ObjectId(post_id)
-        self.database["posts"].update_one(
-            {"_id": post_object_id},
-            {"$set": new_data}
-        )
+        post = self.database["posts"].find_one({"_id": post_object_id})
+
+        if user_id == ObjectId(post["user_id"]):
+            self.database["posts"].update_one(
+                {"_id": post_object_id},
+                {"$set": new_data}
+            )
 
     def delete_post_by_id(self, post_id: str):
         self.database["posts"].delete_one(

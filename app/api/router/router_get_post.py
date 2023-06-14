@@ -2,6 +2,7 @@ from typing import Any
 
 from fastapi import Depends, Response
 from pydantic import Field
+from typing import List
 
 from app.utils import AppModel
 
@@ -20,15 +21,17 @@ class GetPostResponse(AppModel):
     rooms_count: int
     description: str
     user_id: Any
+    media: List[str]
 
 
-@router.get("/posts/{post_id:str}", response_model=GetPostResponse)
+@router.get("/posts/{post_id}", response_model=GetPostResponse)
 def get_post(
     post_id: str,
     jwt_data: JWTData = Depends(parse_jwt_user_data),
     svc: Service = Depends(get_service),
-) -> dict[str, str]:
+):
     post = svc.repository.get_post_by_id(post_id)
     if not post: 
         return Response(status_code=404)
-    return GetPostResponse(**post)
+    return post
+

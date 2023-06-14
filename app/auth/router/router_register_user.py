@@ -34,4 +34,5 @@ def register_user(
 
     svc.repository.create_user(input.dict())
 
-    return RegisterUserResponse(email=input.email, name=input.name, phone=input.phone)
+    return RegisterUserResponse(email=input.email, name=input.name,
+                                phone=input.phone)

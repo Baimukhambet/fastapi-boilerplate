@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 from pydantic import Field
 from typing import Optional
 
@@ -32,6 +32,7 @@ def update_post(
     svc: Service = Depends(get_service),
 ) -> dict[str, str]:
     
-    svc.repository.update_post_by_id(post_id, input.dict(exclude_unset=True))
+    svc.repository.update_post_by_id(post_id, input.dict(exclude_unset=True),
+    jwt_data.user_id)
 
     return {"updated": "true"}

@@ -33,6 +33,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin
       ME_CONFIG_MONGODB_URL: mongodb://${MONGOUSER:-root}:${MONGOPASSWORD:-password}@mongodb:27017/
+    env_file: .env
     depends_on:
       - mongodb
 

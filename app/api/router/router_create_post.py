@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, status
 from typing import Any
 from pydantic import Field
 from app.utils import AppModel
@@ -30,7 +30,7 @@ def create_post(
     input: CreatePostRequest,
     svc: Service = Depends(get_service),
     jwt_data: JWTData = Depends(parse_jwt_user_data),
-):
+)   :
     # if svc.repository.get_user_by_email(input.email):
     #     raise HTTPException(
     #         status_code=status.HTTP_400_BAD_REQUEST,
