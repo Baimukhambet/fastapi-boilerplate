@@ -42,7 +42,7 @@ class APIRepository:
     def delete_post_by_id(self, post_id: str):
         self.database["posts"].delete_one(
             {
-                "_id": post_id
+                "_id": ObjectId(post_id)
             }
         )
     
