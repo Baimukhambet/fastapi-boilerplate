@@ -14,8 +14,6 @@ from .dependencies import parse_jwt_user_data
 #     id: Any = Field(alias="_id")
 #     email: str
 
-
-
 @router.delete("/posts/{post_id:str}")
 def delete_post_by_id(
     post_id: str,
