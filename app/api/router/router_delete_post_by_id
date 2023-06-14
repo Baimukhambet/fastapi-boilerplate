@@ -17,7 +17,7 @@ from .dependencies import parse_jwt_user_data
 
 
 @router.delete("/posts/{post_id:str}")
-def update_post(
+def delete_post(
     post_id: str,
     jwt_data: JWTData = Depends(parse_jwt_user_data),
     svc: Service = Depends(get_service),
